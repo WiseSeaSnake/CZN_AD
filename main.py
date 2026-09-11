@@ -108,20 +108,36 @@ if __name__ == "__main__":
             print("\nПервые 5 записей:")
             #print(df.head().to_string(index=False))
             print(df)
+
+            duplicates_fio = df.duplicated(subset=['ФИО']).sum()
+            print(f"Количество дубликатов по ФИО: {duplicates_fio}")
+
+            # Проверка полных дубликатов строк (все поля совпадают)
+            duplicates_full = df.duplicated().sum()
+            print(f"Количество полных дубликатов строк: {duplicates_full}")
+
+            # Показать сами строки-дубликаты (все вхождения, включая первые)
+            duplicates_rows = df[df.duplicated(subset=['ФИО'], keep=False)]
+            print("\nСтроки с повторяющимися ФИО:")
+            print(duplicates_rows.to_string(index=False))
+
+
             # Сохранение в CSV
-            csv_file = "people.csv"
-            df.to_csv(csv_file, index=False, encoding='utf-8-sig')
-            print(f"\nДанные сохранены в {csv_file}")
+
+
+            #csv_file = "people.csv"
+            #df.to_csv(csv_file, index=False, encoding='utf-8-sig')
+            #print(f"\nДанные сохранены в {csv_file}")
 
             # Сохранение в Excel (если установлен openpyxl)
-            try:
-                excel_file = "people.xlsx"
-                df.to_excel(excel_file, index=False, engine='openpyxl')
-                print(f"Данные сохранены в {excel_file}")
-            except ImportError:
-                print("Для сохранения в Excel установите openpyxl: pip install openpyxl")
-            except Exception as e:
-                print(f"Не удалось сохранить в Excel: {e}")
+            #try:
+            #    excel_file = "people.xlsx"
+            #    df.to_excel(excel_file, index=False, engine='openpyxl')
+            #    print(f"Данные сохранены в {excel_file}")
+            #except ImportError:
+            #    print("Для сохранения в Excel установите openpyxl: pip install openpyxl")
+            #except Exception as e:
+            #    print(f"Не удалось сохранить в Excel: {e}")
 
     except ValueError:
         print("Ошибка: введите целое число.")
